@@ -1,0 +1,494 @@
+{
+  "info": {
+    "name": "EMS Backend",
+    "description": "Education Management System – API collection. Set baseUrl and for tenant routes use Authorization + x-tenant-scoped: true.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "token", "value": "" },
+    { "key": "tenantId", "value": "" },
+    { "key": "studentId", "value": "" },
+    { "key": "classId", "value": "" },
+    { "key": "sectionId", "value": "" },
+    { "key": "academicYearId", "value": "" },
+    { "key": "feeStructureId", "value": "" },
+    { "key": "studentFeeId", "value": "" }
+  ],
+  "auth": {
+    "type": "noauth"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "GET /",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@school.com\",\n  \"password\": \"password123\",\n  \"firstName\": \"School\",\n  \"lastName\": \"Admin\",\n  \"profiles\": [\n    {\n      \"tenantId\": \"{{tenantId}}\",\n      \"organizationId\": \"<organization-uuid>\",\n      \"roleId\": \"<role-uuid>\"\n    }\n  ]\n}\n"
+            },
+            "url": "{{baseUrl}}/auth/register"
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@school.com\",\n  \"password\": \"password123\"\n}\n"
+            },
+            "url": "{{baseUrl}}/auth/login"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Platform",
+      "item": [
+        {
+          "name": "Bootstrap Admin",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"platform@admin.com\",\n  \"password\": \"password123\",\n  \"firstName\": \"Platform\",\n  \"lastName\": \"Admin\"\n}\n"
+            },
+            "url": "{{baseUrl}}/platform/bootstrap-admin"
+          }
+        },
+        {
+          "name": "Create Tenant",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"My School\",\n  \"code\": \"MYSCHOOL\",\n  \"adminEmail\": \"admin@school.com\",\n  \"adminPassword\": \"password123\",\n  \"adminFirstName\": \"School\",\n  \"adminLastName\": \"Admin\"\n}\n"
+            },
+            "url": "{{baseUrl}}/platform/tenants"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Institution",
+      "item": [
+        {
+          "name": "Create Institution",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"My School\",\n  \"email\": \"contact@school.com\",\n  \"phone\": \"+1234567890\",\n  \"address\": \"123 School St\"\n}\n"
+            },
+            "url": "{{baseUrl}}/institution"
+          }
+        },
+        {
+          "name": "Get Institution",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "url": "{{baseUrl}}/institution"
+          }
+        },
+        {
+          "name": "Update Institution",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"My School Updated\",\n  \"email\": \"contact@school.com\",\n  \"phone\": \"+1234567890\",\n  \"address\": \"456 New St\"\n}\n"
+            },
+            "url": "{{baseUrl}}/institution"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Academic Years",
+      "item": [
+        {
+          "name": "Create Academic Year",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"2024-25\",\n  \"startDate\": \"2024-04-01\",\n  \"endDate\": \"2025-03-31\"\n}\n"
+            },
+            "url": "{{baseUrl}}/academic-years"
+          }
+        },
+        {
+          "name": "Get Active Academic Year",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "url": "{{baseUrl}}/academic-years/active"
+          }
+        },
+        {
+          "name": "Activate Academic Year",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "url": "{{baseUrl}}/academic-years/{{academicYearId}}/activate"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Classes",
+      "item": [
+        {
+          "name": "Create Class",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"academicYearId\": \"{{academicYearId}}\",\n  \"name\": \"Class 10\"\n}\n"
+            },
+            "url": "{{baseUrl}}/classes"
+          }
+        },
+        {
+          "name": "List Classes",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/classes?academicYearId={{academicYearId}}&page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["classes"],
+              "query": [
+                { "key": "academicYearId", "value": "{{academicYearId}}" },
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sections",
+      "item": [
+        {
+          "name": "Create Section",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"classId\": \"{{classId}}\",\n  \"name\": \"A\"\n}\n"
+            },
+            "url": "{{baseUrl}}/sections"
+          }
+        },
+        {
+          "name": "List Sections",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/sections?classId={{classId}}&page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["sections"],
+              "query": [
+                { "key": "classId", "value": "{{classId}}" },
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Students",
+      "item": [
+        {
+          "name": "Create Student",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"admissionNumber\": \"ADM001\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"dateOfBirth\": \"2010-05-15\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"+1234567890\",\n  \"guardianName\": \"Jane Doe\"\n}\n"
+            },
+            "url": "{{baseUrl}}/students"
+          }
+        },
+        {
+          "name": "Assign Student to Class",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentId\": \"{{studentId}}\",\n  \"classId\": \"{{classId}}\"\n}\n"
+            },
+            "url": "{{baseUrl}}/students/assign-class"
+          }
+        },
+        {
+          "name": "List Students",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/students?page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["students"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Student",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "url": "{{baseUrl}}/students/{{studentId}}"
+          }
+        },
+        {
+          "name": "Update Student",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe Updated\",\n  \"dateOfBirth\": \"2010-05-15\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"+1234567890\",\n  \"guardianName\": \"Jane Doe\"\n}\n"
+            },
+            "url": "{{baseUrl}}/students/{{studentId}}"
+          }
+        },
+        {
+          "name": "Delete Student",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "url": "{{baseUrl}}/students/{{studentId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Fees",
+      "item": [
+        {
+          "name": "Create Fee Head",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Tuition Fee\",\n  \"code\": \"TUITION\",\n  \"description\": \"Annual tuition\"\n}\n"
+            },
+            "url": "{{baseUrl}}/fees/heads"
+          }
+        },
+        {
+          "name": "Create Fee Structure",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"academicYearId\": \"{{academicYearId}}\",\n  \"classId\": \"{{classId}}\",\n  \"name\": \"Class 10 Fees 2024-25\",\n  \"items\": [\n    { \"feeHeadId\": \"<fee-head-uuid>\", \"amount\": 50000 }\n  ]\n}\n"
+            },
+            "url": "{{baseUrl}}/fees/structures"
+          }
+        },
+        {
+          "name": "Assign Student to Fee Structure",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentId\": \"{{studentId}}\",\n  \"feeStructureId\": \"{{feeStructureId}}\"\n}\n"
+            },
+            "url": "{{baseUrl}}/fees/assign-student"
+          }
+        },
+        {
+          "name": "Pay Fee",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"studentFeeId\": \"{{studentFeeId}}\",\n  \"amount\": 25000,\n  \"paymentDate\": \"2024-06-01\",\n  \"mode\": \"CASH\",\n  \"reference\": \"TXN001\"\n}\n"
+            },
+            "url": "{{baseUrl}}/fees/pay"
+          }
+        },
+        {
+          "name": "Get Student Fees",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/fees/student/{{studentId}}?page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["fees", "student", "{{studentId}}"],
+              "query": [
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Attendance",
+      "item": [
+        {
+          "name": "Mark Attendance",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sectionId\": \"{{sectionId}}\",\n  \"date\": \"2024-06-01\",\n  \"records\": [\n    { \"studentId\": \"{{studentId}}\", \"status\": \"PRESENT\" }\n  ]\n}\n"
+            },
+            "url": "{{baseUrl}}/attendance/mark"
+          }
+        },
+        {
+          "name": "List Attendance",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "x-tenant-scoped", "value": "true" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/attendance?sectionId={{sectionId}}&date=2024-06-01&page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["attendance"],
+              "query": [
+                { "key": "sectionId", "value": "{{sectionId}}" },
+                { "key": "date", "value": "2024-06-01" },
+                { "key": "page", "value": "1" },
+                { "key": "limit", "value": "20" }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
